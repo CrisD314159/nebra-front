@@ -1,0 +1,52 @@
+'use server'
+
+import { FormResponse } from "@/lib/types/types";
+import { answerCommentValidations, createCommentValidation } from "@/lib/ZodValidations/CommentValidations";
+import { FetchFormMethod, GetEntityMethod } from "../GlobalServerActions/GlobalServerActions";
+
+
+export async function CreateComment(formdata:FormData, formstate: FormResponse) {
+  const validations = createCommentValidation.safeParse({
+    businessId: formdata.get('businessId'),
+    title: formdata.get('title'),
+    content: formdata.get('content'),
+    score: formdata.get('score')
+  })
+
+  if(!validations.success){
+    return {
+      success:false,
+      message: validations.error.flatten.toString()
+    }
+  }
+
+  return await FetchFormMethod('api/comment', 'POST', {...validations.data})
+
+}
+
+
+export async function AnswerComment(formdata:FormData, formstate: FormResponse) {
+  const validations = answerCommentValidations.safeParse({
+    commentId: formdata.get('commentId'),
+    answer: formdata.get('answer')
+  })
+
+  if(!validations.success){
+    return {
+      success:false,
+      message: validations.error.flatten.toString()
+    }
+  }
+
+  return await FetchFormMethod('api/comment/answer', 'PUT', {...validations.data})
+
+}
+
+
+export async function GetBusinessComments(businessId:string, page:number) {
+
+  const url = `api/comment/business-comments/${businessId}?page=${page}`
+
+  return await GetEntityMethod(url, false)
+
+}

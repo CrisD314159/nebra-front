@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --buuble: #cbdaf7;
+  --str-chat__message-list-background-color: var(--background) !important;
 }
 
 @theme inline {
@@ -14,10 +17,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #00001a;
     --foreground: #ededed;
+     --buuble: #242455;
   }
 }
+
 
 body {
   background: var(--background);
