@@ -1,7 +1,8 @@
 'use server'
-import { APIURL, FormResponse, isNullOrEmpty } from "@/lib/types/types";
+import { APIURL, FormResponse, isNullOrEmpty, UserInfo } from "@/lib/types/types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { GetUserProfile } from "../UserActions/UserActions";
 
 export async function checkIsLoggedIn() {
   try {
@@ -62,6 +63,7 @@ export async function LogIn(formstate:FormResponse, formdata:FormData) {
   if(response.status === 200){
     const {token, refreshToken} = await response.json()
     await CreateSession(token, refreshToken)
+    await StoreRole()
     redirect("/dashboard")
   }
   if(response.status === 401){
@@ -128,6 +130,26 @@ export async function RefreshToken(currentRefreshToken:string | undefined) {
     await CreateSession(token, refreshToken)
   } 
 }
+
+export async function StoreRole(){
+  const user:UserInfo = await GetUserProfile()
+
+  const cookieStore = await cookies()
+
+  cookieStore.set('role', user.userRole, {
+  httpOnly: true,
+  secure: false,
+  expires:  new Date(Date.now() + 86400000),// Outputs the date and time exactly 1 day from now,
+  sameSite: 'lax',
+  path: '/',
+  })
+}
+
+
+export async function GetUserRole(){
+  return (await cookies()).get('role')?.value
+}
+
 export async function CreateSession(token:string, refreshToken:string) {
 
   const cookieStore = await cookies()

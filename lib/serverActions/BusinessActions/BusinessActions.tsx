@@ -8,7 +8,7 @@ import { success } from "zod"
 
 export async function GetNearBusiness(latitude:number, longitude:number) {
   const url = `api/business/near?latitude=${latitude}&longitude=${longitude}`
-  return GetEntityMethod(url, false)
+  return await GetEntityMethod(url, false)
 }
 export async function CreateBusiness(formdata:FormData, formstate:FormResponse) {
   const validations = createBusinessValidation.safeParse({
@@ -139,8 +139,8 @@ export async function RemoveBusinessFromFavorites(businessId:string) {
 
 }
 
-export function GetUserFavoriteBusiness() {
+export async function GetUserFavoriteBusiness() {
   const url = `api/business/favorites`
-  return GetEntityMethod(url, true)
+  return await GetEntityMethod(url, true)
 
 }

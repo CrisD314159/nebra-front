@@ -2,26 +2,37 @@
 
 import Dock from "@/components/Dock/Dock"
 import Tab from "@/components/Dock/Tab"
-import { HouseIcon, MagnifyingGlassIcon, StorefrontIcon, UserIcon } from "@phosphor-icons/react"
+import { BellRing, CircleUser, House, Search, Store } from "lucide-react"
+import dynamic from "next/dynamic"
 import { Suspense } from "react"
 
+const HomePageDynamic = dynamic(() => import('@/components/Home/HomePageComponent'), {
+  ssr:false
+})
+
 export default function DashboardPage() {
+
+
   return (
     <Suspense>
       <Dock>
-        <Tab title="Home" tabkey="home" icon={HouseIcon}>
-          Home page
+        <Tab title="Home" tabkey="home" icon={House}>
+          <HomePageDynamic/>
         </Tab>
 
-        <Tab title="Search" tabkey="search" icon={MagnifyingGlassIcon}>
+        <Tab title="Search" tabkey="search" icon={Search}>
           Search
         </Tab>
 
-        <Tab title="Saved" tabkey="saved" icon={StorefrontIcon}>
+        <Tab title="Notifications" tabkey="notifications" icon={BellRing}>
+          Notifications
+        </Tab>
+
+        <Tab title="Saved" tabkey="saved" icon={Store}>
           Saved Page
         </Tab>
 
-        <Tab title="Search" tabkey="search" icon={UserIcon}>
+        <Tab title="User" tabkey="user" icon={CircleUser}>
           User Page
         </Tab>
       </Dock>

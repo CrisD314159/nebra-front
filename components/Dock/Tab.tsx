@@ -1,9 +1,11 @@
 'use client'
 
-import { Icon } from "@phosphor-icons/react"
+import { LucideProps } from "lucide-react"
+import { ForwardRefExoticComponent, RefAttributes } from "react"
+
 
 interface TabProps {
-  icon: Icon
+  icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
   title: string
   tabkey: string
   children: React.ReactNode

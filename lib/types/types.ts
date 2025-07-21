@@ -18,6 +18,7 @@ export interface UserInfo{
   biography: string,
   country: string
   createdWithGoogle:boolean
+  userRole:string
 }
 
 export interface ChatTokenResponse{
@@ -44,12 +45,13 @@ export interface BusinessInfo{
   phoneContact:string,
   businessCategory:string
   latitude:number
-  longitide:number
+  longitude:number
   scheduleList: Schedule[]
   averageScore: number
   ownerId:string
   ownerName:string
   businessState:string
+  category:string
 }
 
 

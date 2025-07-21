@@ -78,12 +78,12 @@ export async function UpdateUser(formdata:FormData, formstate:FormResponse) {
 }
 
 export async function GetUserProfile() {
-  await GetEntityMethod('api/user', true)
+ return await GetEntityMethod('api/user', true)
   
 }
 
 
 export async function SearchUsers(name:string, page:number) {
   const url = `api/user/search?name=${name}&page${page}`
-  await GetEntityMethod(url, false)  
+  return await GetEntityMethod(url, false)  
 }
