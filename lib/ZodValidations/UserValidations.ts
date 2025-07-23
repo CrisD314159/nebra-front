@@ -12,3 +12,14 @@ export const updateUserValidation = z.object({
   name:z.string(),
   location: z.string()
 })
+
+
+export const changePasswordValidation = z.object({
+    email:z.email(),
+    password:z.string(),
+    code:z.string()
+})
+
+export const recoverAccountValidation = z.object({
+    email:z.email()
+})

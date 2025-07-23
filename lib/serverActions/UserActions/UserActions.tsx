@@ -1,10 +1,11 @@
 'use server'
 
 import { FormResponse } from "@/lib/types/types";
-import { createUserValidation, updateUserValidation } from "@/lib/ZodValidations/UserValidations";
-import { FetchActionMethod, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions";
+import { changePasswordValidation, createUserValidation, recoverAccountValidation, updateUserValidation } from "@/lib/ZodValidations/UserValidations";
+import { FetchActionMethod, FetchFormMethodWithAuthorizeBool, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions";
 
-export async function CreateUser(formdata:FormData, formstate:FormResponse) {
+
+export async function CreateUser(formstate:FormResponse, formdata:FormData ) {
 
   const validations = createUserValidation.safeParse({
     name: formdata.get('name'),
@@ -41,7 +42,7 @@ export async function CreateUser(formdata:FormData, formstate:FormResponse) {
   }
 }
 
-export async function UpdateUser(formdata:FormData, formstate:FormResponse) {
+export async function UpdateUser(formResponse:FormResponse, formdata:FormData ) {
     const validations = updateUserValidation.safeParse({
       id:formdata.get('id'),
       name: formdata.get('name'),
@@ -83,7 +84,47 @@ export async function GetUserProfile() {
 }
 
 
+export async function ChangePassword(formResponse:FormResponse, formdata:FormData) {
+    const validations = changePasswordValidation.safeParse({
+      email:formdata.get("email"),
+      password:formdata.get("password"),
+      code:formdata.get("code")
+    })
+  
+    if(!validations.success){
+      return {
+        success: false,
+        message: validations.error.flatten.toString()
+      }
+    }
+
+    return await FetchFormMethodWithAuthorizeBool("/auth/changePassword", 'PUT', {...validations.data}, false)
+
+}
+
+export async function ResetAccount(formResponse:FormResponse, formdata:FormData){
+    const validations = recoverAccountValidation.safeParse({
+    email: formdata.get("email")
+  })
+
+  if(!validations.success){
+    return {
+      success: false,
+      message: validations.error.flatten.toString()
+    }
+  }
+
+  return await FetchFormMethodWithAuthorizeBool("/auth/resetAccount", 'POST', {...validations.data}, false)
+
+
+}
+
 export async function SearchUsers(name:string, page:number) {
   const url = `api/user/search?name=${name}&page${page}`
   return await GetEntityMethod(url, false)  
+}
+
+export async function DeleteAccount() {
+  const url = `api/user/search?`
+  return await FetchActionMethod(url, 'DELETE', {})  
 }

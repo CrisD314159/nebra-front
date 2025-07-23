@@ -118,3 +118,34 @@ export async function ImageUploading(path:string, method:string, blob:FormData) 
   }
   
 }
+
+export async function FetchFormMethodWithAuthorizeBool(path:string, method:string, body:object, authorize:boolean) {
+    await checkIsLoggedIn()
+  const token = (await cookies()).get('token')?.value
+
+  let response: Response
+
+  try {
+    response = await fetch(`${APIURL}/${path}`, {
+      method:method,
+      headers:  authorize
+        ? { Authorization: `Bearer ${token}` }
+        : {},
+      body: JSON.stringify({...body})
+
+    })
+  } catch {
+    return {
+      success:false,
+      message:"An error occured while connecting to server"
+    }
+  }
+
+  const {success, message} = await response.json()
+
+  return {
+    success,
+    message
+  }
+  
+}

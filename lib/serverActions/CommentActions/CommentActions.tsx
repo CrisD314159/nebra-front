@@ -5,7 +5,7 @@ import { answerCommentValidations, createCommentValidation } from "@/lib/ZodVali
 import { FetchFormMethod, GetEntityMethod } from "../GlobalServerActions/GlobalServerActions";
 
 
-export async function CreateComment(formdata:FormData, formstate: FormResponse) {
+export async function CreateComment(formstate: FormResponse, formdata:FormData) {
   const validations = createCommentValidation.safeParse({
     businessId: formdata.get('businessId'),
     title: formdata.get('title'),
@@ -25,7 +25,7 @@ export async function CreateComment(formdata:FormData, formstate: FormResponse) 
 }
 
 
-export async function AnswerComment(formdata:FormData, formstate: FormResponse) {
+export async function AnswerComment(formstate: FormResponse, formdata:FormData ) {
   const validations = answerCommentValidations.safeParse({
     commentId: formdata.get('commentId'),
     answer: formdata.get('answer')

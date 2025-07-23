@@ -3,14 +3,13 @@
 import { FormResponse } from "@/lib/types/types"
 import { createBusinessValidation, updateBusinessValidation } from "@/lib/ZodValidations/BusinessValidations"
 import { FetchActionMethod, FetchFormMethod, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions"
-import { success } from "zod"
 
 
 export async function GetNearBusiness(latitude:number, longitude:number) {
   const url = `api/business/near?latitude=${latitude}&longitude=${longitude}`
   return await GetEntityMethod(url, false)
 }
-export async function CreateBusiness(formdata:FormData, formstate:FormResponse) {
+export async function CreateBusiness(formstate:FormResponse, formdata:FormData) {
   const validations = createBusinessValidation.safeParse({
     name:formdata.get('name'),
     description: formdata.get('description'),
@@ -47,7 +46,7 @@ export async function CreateBusiness(formdata:FormData, formstate:FormResponse) 
   }
 
 }
-export async function UpdateBusiness(formdata: FormData, formstate: FormResponse) {
+export async function UpdateBusiness(formstate: FormResponse, formdata: FormData) {
   // TODO: Gestionar la eliminación de imágenes
     const validations = updateBusinessValidation.safeParse({
     id:formdata.get('id'),

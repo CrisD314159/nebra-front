@@ -10,6 +10,14 @@ const HomePageDynamic = dynamic(() => import('@/components/Home/HomePageComponen
   ssr:false
 })
 
+const SearchPageDynamic = dynamic(() => import('@/components/Search/SearchPage'), {
+  ssr:false
+})
+
+const UserPageDynamic = dynamic(() => import('@/components/User/UserPage'), {
+  ssr:false
+})
+
 export default function DashboardPage() {
 
 
@@ -21,7 +29,7 @@ export default function DashboardPage() {
         </Tab>
 
         <Tab title="Search" tabkey="search" icon={Search}>
-          Search
+          <SearchPageDynamic/>
         </Tab>
 
         <Tab title="Notifications" tabkey="notifications" icon={BellRing}>
@@ -33,7 +41,7 @@ export default function DashboardPage() {
         </Tab>
 
         <Tab title="User" tabkey="user" icon={CircleUser}>
-          User Page
+          <UserPageDynamic/>
         </Tab>
       </Dock>
     </Suspense>
