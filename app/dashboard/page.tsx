@@ -18,6 +18,14 @@ const UserPageDynamic = dynamic(() => import('@/components/User/UserPage'), {
   ssr:false
 })
 
+const CommentsPageDynamic = dynamic(() => import('@/components/Comments/CommentsPage'), {
+  ssr:false
+})
+
+const SavedPageDynamic = dynamic(() => import('@/components/Saved/SavedPage'), {
+  ssr:false
+})
+
 export default function DashboardPage() {
 
 
@@ -32,12 +40,12 @@ export default function DashboardPage() {
           <SearchPageDynamic/>
         </Tab>
 
-        <Tab title="Notifications" tabkey="notifications" icon={BellRing}>
-          Notifications
+        <Tab title="Comments" tabkey="comments" icon={BellRing}>
+          <CommentsPageDynamic/>
         </Tab>
 
         <Tab title="Saved" tabkey="saved" icon={Store}>
-          Saved Page
+          <SavedPageDynamic/>
         </Tab>
 
         <Tab title="User" tabkey="user" icon={CircleUser}>

@@ -20,7 +20,7 @@ export default function BusinessCard({business}:BusinessCardProps) {
     <>
       <motion.div
         layoutId={business.id}
-        className="w-[80%] p-4 h-[600px] my-10 rounded-xl shadow-2xl cursor-pointer"
+        className="w-[80%] p-4 h-[350px] sm:h-[300px] my-4 rounded-xl shadow-2xl cursor-pointer"
         onClick={() => setSelected(true)}
       >
         <div className="flex flex-col w-full h-full sm:flex-row items-center">

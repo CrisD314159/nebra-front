@@ -8,6 +8,11 @@
   --str-chat__message-list-background-color: var(--background) !important;
 }
 
+html,
+body {
+  overscroll-behavior: none;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

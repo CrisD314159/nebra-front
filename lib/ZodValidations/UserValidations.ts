@@ -23,3 +23,8 @@ export const changePasswordValidation = z.object({
 export const recoverAccountValidation = z.object({
     email:z.email()
 })
+
+export const verifyAccountValidation = z.object({
+    email:z.email(),
+    code:z.string()
+})

@@ -33,8 +33,8 @@ export async function CreateBusiness(formstate:FormResponse, formdata:FormData) 
       imagesFormData.append('files', images)
     }
 
-    const ids = await ImageUploading('api/business/uploadBusinessPhotos', 'POST', imagesFormData)  
-    await FetchActionMethod('api/business', 'POST', {...validations.data, imagesIds:ids })
+    const ids = await ImageUploading('api/business/uploadBusinessPhotos', 'POST', imagesFormData, false)  
+    await FetchActionMethod('api/business', 'POST', {...validations.data, imagesIds:ids }, true)
 
   } catch (error) {
     if (error instanceof Error){
@@ -72,8 +72,8 @@ export async function UpdateBusiness(formstate: FormResponse, formdata: FormData
       imagesFormData.append('files', images)
     }
 
-    const ids = await ImageUploading('api/business/uploadBusinessPhotos', 'POST', imagesFormData)  
-    await FetchActionMethod('api/business', 'PUT', {...validations.data, imagesIds:ids })
+    const ids = await ImageUploading('api/business/uploadBusinessPhotos', 'POST', imagesFormData, true)  
+    await FetchActionMethod('api/business', 'PUT', {...validations.data, imagesIds:ids }, true)
 
   } catch (error) {
     if (error instanceof Error){
@@ -89,7 +89,7 @@ export async function UpdateBusiness(formstate: FormResponse, formdata: FormData
 
 }
 export async function DeleteBusiness(businessId:string) {
-  return await FetchActionMethod(`api/business/${businessId}`, 'DELETE', {})
+  return await FetchActionMethod(`api/business/${businessId}`, 'DELETE', {}, true)
 
 }
 
@@ -100,8 +100,8 @@ export async function SearchBusiness(name:string, page:number) {
 
 }
 
-export async function GetUserArchivedBusiness(page:number) {
-  const url = `api/business/archived?page=${page}`
+export async function GetUserArchivedBusiness() {
+  const url = `api/business/archived`
   return await GetEntityMethod(url, true)
 
 }
@@ -112,29 +112,29 @@ export async function GetBusinessByCategory(page:number, category:string) {
 
 }
 
-export async function GetUserBusiness(page:number) {
-  const url = `api/business/user?page=${page}`
+export async function GetUserBusiness() {
+  const url = `api/business/user`
   return await GetEntityMethod(url, true)
 
 }
 
 export async function ArchiveBusiness(businessId:string) {
-  return await FetchActionMethod(`api/business/archive/${businessId}`, 'PUT', {})
+  return await FetchActionMethod(`api/business/archive/${businessId}`, 'PUT', {}, true)
 
 }
 
 export async function RepublishBusiness(businessId:string) {
-  return await FetchActionMethod(`api/business/republish/${businessId}`, 'PUT', {})
+  return await FetchActionMethod(`api/business/republish/${businessId}`, 'PUT', {}, true)
 
 }
 
 export async function AddBusinessToFavorites(businessId:string) {
-  return await FetchActionMethod(`api/business/favorites/add/${businessId}`, 'PUT', {})
+  return await FetchActionMethod(`api/business/favorites/add/${businessId}`, 'PUT', {}, true)
 
 }
 
 export async function RemoveBusinessFromFavorites(businessId:string) {
-  return await FetchActionMethod(`api/business/favorites/remove/${businessId}`, 'PUT', {})
+  return await FetchActionMethod(`api/business/favorites/remove/${businessId}`, 'PUT', {}, true)
 
 }
 

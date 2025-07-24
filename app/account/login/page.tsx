@@ -23,7 +23,7 @@ export default function Home() {
               height={100}
               className="mx-auto w-auto"
             />
-            <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-white">
+            <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
               Sign in to your account
             </h2>
           </div>
@@ -41,7 +41,7 @@ export default function Home() {
                 </div>
             <p className="mt-10 text-center text-sm/6 text-gray-500">
               Do not have an account?{' '}
-              <Link href="/account/signup" className="font-semibold text-[#000080] hover:text-indigo-500 dark:text-indigo-700">
+              <Link href="/account/signup" className="font-semibold  hover:text-indigo-500 text-indigo-700">
                 Sign up here
               </Link>
             </p>
@@ -49,7 +49,7 @@ export default function Home() {
               <Link href={"https://github.com/CrisD314159/nebra-front"}>
                 <Github width={30} height={30}/>
               </Link>
-              <Link href={"https://crisdev-pi.vercel.app/"} className="font-semibold text-[#000080] hover:text-indigo-500 dark:text-indigo-700">
+              <Link href={"https://crisdev-pi.vercel.app/"} className="font-semibold  hover:text-indigo-500 text-indigo-700">
                 {"Creator's Page"}
               </Link>
             </p>

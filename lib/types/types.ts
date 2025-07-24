@@ -10,13 +10,24 @@ export type FormResponse =
 }|undefined
 
 
+export interface CommentInfo{
+  id:string
+  title:string
+  score:number
+  content:string
+  businessId:string
+  businessName:string
+  authorId:string
+  authorName:string
+  answer:string
+}
+
 export interface UserInfo{
   id: string,
   name: string,
   email:string
-  profilePicture: string,
-  biography: string,
-  country: string
+  profilePicture: ImageInfo,
+  location: string
   createdWithGoogle:boolean
   userRole:string
 }

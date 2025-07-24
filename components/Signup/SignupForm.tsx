@@ -3,34 +3,34 @@
 import { startTransition, useActionState, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { CreateUser } from "@/lib/serverActions/UserActions/UserActions"
-import ProfilePictureComponent from "../ProfilePicture/ProfilePictureComponent"
+import ProfilePictureComponent from "../ImageInputs/ProfilePictureComponent"
 
 export default function SignupForm() {
-  const picUrl = "https://api.dicebear.com/9.x/fun-emoji/svg?seed="
   const [state, action, pending] = useActionState(CreateUser, undefined)
-  const [profileSeed, setProfileSeed] = useState('Aidan')
+  const [formImage, setFormImage] = useState<File | null>(null)
 
   useEffect(()=>{
     if(state?.success === false){
       toast.error(state.message)
+    }
+    if(state?.success === true){
+      toast.success(state.message)
     }
   }, [state])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formdata = new FormData(event.currentTarget)
-    formdata.set("profilePicture", `${picUrl}${profileSeed}`)
+    if(formImage) formdata.set('image', formImage)
 
     startTransition(() => {
       action(formdata)
     })
   }
 
-
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-            <ProfilePictureComponent/>
+            <ProfilePictureComponent setFormImageFile={setFormImage} />
             <div className="flex w-full justify-center items-center gap-3">
               <div>
                 <label htmlFor="name" className="block text-sm/6 font-medium text-gray-900 dark:text-gray-100">

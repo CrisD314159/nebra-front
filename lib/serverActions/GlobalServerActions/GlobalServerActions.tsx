@@ -16,8 +16,8 @@ export async function GetEntityMethod(path:string, authorize:boolean){
     response = await fetch(`${APIURL}/${path}`, {
       method:'GET',
       headers: authorize
-        ? { Authorization: `Bearer ${token}` }
-        : {},
+        ? { 'Authorization': `Bearer ${token}`,'Content-Type':'application/json', }
+        : {'Content-Type':'application/json',},
     })
   } catch {
     throw new Error("An error occured while connecting to server")
@@ -43,7 +43,8 @@ export async function FetchFormMethod(path:string, method:string, body:object) {
     response = await fetch(`${APIURL}/${path}`, {
       method:method,
       headers: { 
-        Authorization: `Bearer ${token}` 
+        'Content-Type':'application/json',
+        'Authorization': `Bearer ${token}` 
       },
       body: JSON.stringify({...body})
 
@@ -64,19 +65,21 @@ export async function FetchFormMethod(path:string, method:string, body:object) {
   
 }
 
-export async function FetchActionMethod(path:string, method:string, body:object) {
+export async function FetchActionMethod(path:string, method:string, body:object, authorize:boolean) {
   await checkIsLoggedIn()
   const token = (await cookies()).get('token')?.value
 
   let response: Response
 
+  console.log(body);
+
   try {
     response = await fetch(`${APIURL}/${path}`, {
       method:method,
-      headers: { 
-        Authorization: `Bearer ${token}` 
-      },
-      body: JSON.stringify({...body})
+      headers: authorize
+        ? { 'Authorization': `Bearer ${token}`,'Content-Type':'application/json', }
+        : {'Content-Type':'application/json',},
+      body: JSON.stringify(body)
 
     })
   } catch {
@@ -90,7 +93,7 @@ export async function FetchActionMethod(path:string, method:string, body:object)
 }
 
 
-export async function ImageUploading(path:string, method:string, blob:FormData) {
+export async function ImageUploading(path:string, method:string, blob:FormData, authorize:boolean) {
   await checkIsLoggedIn()
   const token = (await cookies()).get('token')?.value
 
@@ -99,9 +102,10 @@ export async function ImageUploading(path:string, method:string, blob:FormData) 
   try {
     response = await fetch(`${APIURL}/${path}`, {
       method:method,
-      headers: { 
-        Authorization: `Bearer ${token}` 
-      },
+      headers: authorize ? {
+        Authorization: `Bearer ${token}`
+      }
+      : {},
       body: blob
 
     })
@@ -110,7 +114,7 @@ export async function ImageUploading(path:string, method:string, blob:FormData) 
   }
 
   if(response.ok){
-    const id = await response.json()
+    const {id} = await response.json()
     return id
   }else{
     const {message} = await response.json()
@@ -129,8 +133,8 @@ export async function FetchFormMethodWithAuthorizeBool(path:string, method:strin
     response = await fetch(`${APIURL}/${path}`, {
       method:method,
       headers:  authorize
-        ? { Authorization: `Bearer ${token}` }
-        : {},
+        ? { Authorization: `Bearer ${token}`, 'Content-Type':'application/json', }
+        : {'Content-Type':'application/json',},
       body: JSON.stringify({...body})
 
     })

@@ -50,3 +50,8 @@ export async function GetBusinessComments(businessId:string, page:number) {
   return await GetEntityMethod(url, false)
 
 }
+
+export async function GetUserBusinessLatestComments() {
+  const url = `api/comment/getUserLatests`
+  return await GetEntityMethod(url, true)  
+}

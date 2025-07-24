@@ -1,8 +1,8 @@
 'use server'
 
 import { FormResponse } from "@/lib/types/types";
-import { changePasswordValidation, createUserValidation, recoverAccountValidation, updateUserValidation } from "@/lib/ZodValidations/UserValidations";
-import { FetchActionMethod, FetchFormMethodWithAuthorizeBool, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions";
+import { changePasswordValidation, createUserValidation, recoverAccountValidation, updateUserValidation, verifyAccountValidation } from "@/lib/ZodValidations/UserValidations";
+import { FetchActionMethod, FetchFormMethod, FetchFormMethodWithAuthorizeBool, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions";
 
 
 export async function CreateUser(formstate:FormResponse, formdata:FormData ) {
@@ -28,8 +28,12 @@ export async function CreateUser(formstate:FormResponse, formdata:FormData ) {
       imagesFormData.append('file', image)
     }
 
-    const id = await ImageUploading('api/user/uploadProfilePicture', 'POST', imagesFormData)
-    await FetchActionMethod('api/user/create', 'POST', {...validations.data, profilePicture:id })
+    const id = await ImageUploading('api/user/uploadProfilePicture', 'POST', imagesFormData, false)
+    await FetchActionMethod('api/user/create', 'POST', {...validations.data, profilePicture:id }, false)
+    return {
+      success: true,
+      message: "Thanks for sign up"
+    }
     
   } catch (error){
     if(error instanceof Error){
@@ -63,8 +67,12 @@ export async function UpdateUser(formResponse:FormResponse, formdata:FormData ) 
       imagesFormData.append('file', image)
     }
 
-    const id = await ImageUploading('api/user/uploadProfilePicture', 'POST', imagesFormData)
-    await FetchActionMethod('api/user/update', 'PUT', {...validations.data, profilePicture:id })
+    const imageId = await ImageUploading('api/user/uploadProfilePicture', 'POST', imagesFormData, true)
+    await FetchActionMethod('api/user/update', 'PUT', {...validations.data, profilePicture:imageId }, true)
+    return {
+      success: true,
+      message: "Account updated successfully"
+    }
     
   } catch (error){
     if(error instanceof Error){
@@ -124,7 +132,25 @@ export async function SearchUsers(name:string, page:number) {
   return await GetEntityMethod(url, false)  
 }
 
+
+export async function VerifyAccount(formstate:FormResponse, formdata:FormData) {
+  const validations = verifyAccountValidation.safeParse({
+    email: formdata.get('email'),
+    code: formdata.get('code')
+  })
+
+  if(!validations.success){
+    return {
+      success:false,
+      message: validations.error.flatten.toString()
+    }
+  }
+
+  return await FetchFormMethodWithAuthorizeBool('api/account/verifyAccount', 'PUT', {...validations.data}, false)
+  
+}
+
 export async function DeleteAccount() {
   const url = `api/user/search?`
-  return await FetchActionMethod(url, 'DELETE', {})  
+  return await FetchActionMethod(url, 'DELETE', {}, true)  
 }

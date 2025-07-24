@@ -13,7 +13,7 @@ export async function checkIsLoggedIn() {
       return await RefreshToken(refreshToken)
     }
   
-    const response = await fetch(`${APIURL}/users/profile`,
+    const response = await fetch(`${APIURL}/api/user`,
       {
         method:'GET',
         headers:{
@@ -43,7 +43,7 @@ export async function LogIn(formstate:FormResponse, formdata:FormData) {
   let response : Response
 
   try {
-    response = await fetch(`${APIURL}/auth/login`,
+    response = await fetch(`${APIURL}/api/auth/login`,
       {
         method:'POST',
         headers:{
@@ -82,7 +82,7 @@ export async function LogIn(formstate:FormResponse, formdata:FormData) {
 export async function Logout() {
   const refreshToken = (await cookies()).get("refresh")?.value
   try {
-    await fetch(`${APIURL}/auth/logout`, {
+    await fetch(`${APIURL}/api/auth/logout`, {
       method:'POST',
       headers:{
         'Content-Type':'application/json'
@@ -108,7 +108,7 @@ export async function RefreshToken(currentRefreshToken:string | undefined) {
     return false
   }
 
-  const response = await fetch(`${APIURL}/auth/refresh`,
+  const response = await fetch(`${APIURL}/api/auth/refresh`,
     {
       method:'PUT',
       headers:{
