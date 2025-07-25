@@ -4,6 +4,7 @@ import { GetUserBusiness } from "@/lib/serverActions/BusinessActions/BusinessAct
 import { BusinessInfo } from "@/lib/types/types"
 import useSWR from "swr"
 import BusinessCard from "../Business/BusinessCard"
+import CreateBusinessModal from "../Business/Create/CreateBusinessModal"
 
 
 export default function MyBusinessesComponent() {
@@ -12,7 +13,8 @@ export default function MyBusinessesComponent() {
 
 
   return (
-    <div className="overflow-y-scroll w-[90%] flex-1 mx-auto max-md:pb-[92px]">
+    <div className="overflow-y-scroll w-[90%] flex-1 mx-auto max-md:pb-[92px] relative">
+      <CreateBusinessModal/>
       {
         isLoading &&
         <div className="w-full flex justify-center">

@@ -110,7 +110,7 @@ const exampleBusinesses: BusinessInfo[] = [
 
       },
       (error) =>{
-        console.error("Could not get the exact user position", error)
+        console.log("Could not get the exact user position", error)
       }
     )
   }, [mutate])

@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import ImageCarousel from "../ImageCarousel/ImageCarousel";
 import { ArrowLeft } from "lucide-react";
 import RatingBusiness from "./RatingBusiness";
+import MapboxMap from "../Maps/MapboxMap";
 
 interface BusinessPage{
   selected: boolean
@@ -37,6 +38,9 @@ export default function BusinessPage({business, selected, setSelected}:BusinessP
               </p>
 
               <RatingBusiness rating={business.averageScore}/>
+
+
+              <MapboxMap editable={false} initialLat={business.latitude} initialLng={business.longitude} onSelectLocation={() => {}}/>
 
               <h2 className="text-3xl font-bold">Comments</h2>
 
