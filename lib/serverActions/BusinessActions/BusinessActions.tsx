@@ -19,10 +19,12 @@ export async function CreateBusiness(formstate:FormResponse, formdata:FormData) 
     longitude: formdata.get('longitude')
   })
 
+  console.log(validations.success);
+
   if(!validations.success){
     return {
       success: false,
-      message: validations.error.flatten.toString()
+      message: validations.error.message
     }
   }
 
@@ -34,6 +36,7 @@ export async function CreateBusiness(formstate:FormResponse, formdata:FormData) 
     }
 
     const ids = await ImageUploading('api/business/uploadBusinessPhotos', 'POST', imagesFormData, false)  
+    console.log(ids);
     await FetchActionMethod('api/business', 'POST', {...validations.data, imagesIds:ids }, true)
 
   } catch (error) {

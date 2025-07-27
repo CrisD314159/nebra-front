@@ -61,8 +61,8 @@ export async function LogIn(formstate:FormResponse, formdata:FormData) {
   }
 
   if(response.status === 200){
-    const {token, refreshToken} = await response.json()
-    await CreateSession(token, refreshToken)
+    const {token, refresh} = await response.json()
+    await CreateSession(token, refresh)
     await StoreRole()
     redirect("/dashboard")
   }
@@ -114,7 +114,7 @@ export async function RefreshToken(currentRefreshToken:string | undefined) {
       headers:{
         'Content-Type': "application/json"
       },
-      body:JSON.stringify({"refreshToken":currentRefreshToken})
+      body:JSON.stringify({"refresh":currentRefreshToken})
     }
   )
 

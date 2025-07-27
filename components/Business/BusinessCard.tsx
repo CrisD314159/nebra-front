@@ -24,7 +24,7 @@ export default function BusinessCard({business}:BusinessCardProps) {
         onClick={() => setSelected(true)}
       >
         <div className="flex flex-col w-full h-full sm:flex-row items-center">
-          <Image src={'/example.jpg'} alt="Business Image" height={230} width={230}/>
+          <Image src={business.images[0].link} alt="Business Image" height={230} width={230}/>
           <div className="sm:ml-3">
             <h3 className="text-xl mt-3 font-bold sm:text-2xl">{business.name}</h3>
             <p className="text-gray-500 sm:text-shadow-2xs">{business.description}</p>

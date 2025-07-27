@@ -1,18 +1,21 @@
 'use client'
 
-import { GetUserRole } from "@/lib/serverActions/Auth/AuthServerActions"
+import { checkIsLoggedIn, GetUserRole } from "@/lib/serverActions/Auth/AuthServerActions"
 import { useEffect } from "react"
 import { useRoleStore } from "@/store/userRoleStore"
 
 export default function AuthInitializer() {
 
-  const {setRole, role} = useRoleStore()
+  const {setRole, role, setIsLoggedIn} = useRoleStore()
 
 
   useEffect(()=>{
     async function checkUserRole() {
       if(role === undefined){
         const cookieRoleValue = await GetUserRole()
+        const isLoggedIn = await checkIsLoggedIn()
+        
+        setIsLoggedIn(isLoggedIn === true)
         setRole(cookieRoleValue)
       }
     }
@@ -20,7 +23,7 @@ export default function AuthInitializer() {
     checkUserRole()
 
 
-  }, [role, setRole])
+  }, [role, setRole, setIsLoggedIn])
   
 
   return (

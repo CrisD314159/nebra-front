@@ -38,11 +38,19 @@ export default function CreateBusinessForm({handleClose}:CreateBusinessFormProps
 
   },[state])
 
-  const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formdata = new FormData(e.currentTarget)
 
+    formdata.append("latitude", latitude.toString());
+    formdata.append("longitude", longitude.toString());
+    if(images && images.length > 0) {
+      images.forEach((image) => {
+        formdata.append("images", image);
+      });
+    }
 
+    console.log("Started transition");
     startTransition(()=>{
       action(formdata)
     })
@@ -51,7 +59,7 @@ export default function CreateBusinessForm({handleClose}:CreateBusinessFormProps
 
   return ( 
     <div className='max-w-xl mx-auto p-6'>
-      <form onSubmit={handleChange} className="max-w-xl mx-auto space-y-4">
+      <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-4">
         <h2 className="text-2xl font-bold text-center">New Business</h2>
 
         <BusinessImagesUploader setFormImageFiles={setImages}/>
@@ -104,7 +112,7 @@ export default function CreateBusinessForm({handleClose}:CreateBusinessFormProps
 
         <MapboxMap initialLat={latitude} initialLng={longitude} onSelectLocation={handleMapChange} editable/>
 
-        <button type="submit" disabled={pending} className="btn btn-primary w-full">Guardar Negocio</button>
+        <button type="submit" disabled={pending} className="btn btn-primary w-full">Create Business</button>
       </form>
         <button onClick={handleClose} className="btn btn-error w-full mt-4">Cancel</button>
     </div>

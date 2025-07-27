@@ -10,11 +10,15 @@ import LogoutModal from "../Logout/LogoutModal";
 import EditUserModal from "./EditUserModal";
 import { GetUserProfile } from "@/lib/serverActions/UserActions/UserActions";
 import DeleteAccountModal from "../DeleteAccount/DeleteAccountModal";
+import { useRoleStore } from "@/store/userRoleStore";
+import UnauthorizedPage from "../Unauthorized/UnauthorizedPage";
 
 export default function UserPage() {
   const { data, error, isLoading, mutate } = useSWR<UserInfo>('userOverview', GetUserProfile)
 
   const [color, setColor] = useState('#fff')
+
+  const {isLoggedIn} = useRoleStore()
 
 
   useEffect(()=>{
@@ -23,6 +27,12 @@ export default function UserPage() {
     }
   },[data])
   
+
+  if(!isLoggedIn){
+    return (
+      <UnauthorizedPage title="Log in yo view your profile"/>
+    )
+  }
 
   return (
       <div className={`flex flex-col h-screen w-full`} >

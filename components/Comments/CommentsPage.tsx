@@ -6,11 +6,14 @@ import toast from "react-hot-toast"
 import useSWR from "swr"
 import { SearchBusiness } from "@/lib/serverActions/BusinessActions/BusinessActions"
 import CommentListComponent from "./CommentListComponent"
+import { useRoleStore } from "@/store/userRoleStore"
+import UnauthorizedPage from "../Unauthorized/UnauthorizedPage"
 
 
 export default function CommentsPage() {
 
   const [searchParam] = useState('')
+  const {isLoggedIn} = useRoleStore()
 
   const {data, isLoading, error, mutate} = useSWR<CommentInfo[]>('initialSearchUsers', () => SearchBusiness(searchParam,  10))
 
@@ -28,6 +31,12 @@ export default function CommentsPage() {
     FetchInitial(searchParam)
   },[searchParam, mutate])
 
+  if(!isLoggedIn){
+    return (
+      <UnauthorizedPage title="Log in to view your business comments"/>
+    )
+
+  }
   
 
   return (

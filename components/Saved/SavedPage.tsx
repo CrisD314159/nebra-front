@@ -3,6 +3,8 @@
 import dynamic from "next/dynamic"
 import { useState } from "react"
 import {motion} from 'framer-motion'
+import { useRoleStore } from "@/store/userRoleStore"
+import UnauthorizedPage from "../Unauthorized/UnauthorizedPage"
 
 const MyBusinessesDynamic = dynamic(() => import("@/components/Saved/MyBusinessesComponent"), {
   ssr:false
@@ -16,8 +18,16 @@ const ArchivedBusinessesDynamic = dynamic(() => import("@/components/Saved/Archi
 
 
 export default function SavedPage() {
+  const {isLoggedIn} = useRoleStore()
 
   const [tab, setTab] = useState<'MYBUSINESSES' | 'SAVEDBUSINESSES' | 'ARCHIVED'>('MYBUSINESSES')
+
+
+  if(!isLoggedIn){
+    return (
+      <UnauthorizedPage title="Log in to view your saved businesses"/>
+    )
+  }
 
 
   return(
