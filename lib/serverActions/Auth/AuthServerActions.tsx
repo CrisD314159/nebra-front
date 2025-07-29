@@ -80,25 +80,27 @@ export async function LogIn(formstate:FormResponse, formdata:FormData) {
 }
 
 export async function Logout() {
-  const refreshToken = (await cookies()).get("refresh")?.value
+  const refreshToken = (await cookies()).get('refresh')?.value
   try {
     await fetch(`${APIURL}/api/auth/logout`, {
       method:'POST',
       headers:{
         'Content-Type':'application/json'
       },
-      body:JSON.stringify({"refreshToken":refreshToken})
+      body:JSON.stringify({"refresh":refreshToken})
     })
     
   } catch  {
     (await cookies()).delete("token");
     (await cookies()).delete("refresh");
-    redirect("/")
+    (await cookies()).delete("role");
+    redirect("/account/login")
   }
 
   (await cookies()).delete("token");
   (await cookies()).delete("refresh");
-  redirect("/")
+  (await cookies()).delete("role");
+  redirect("/account/login")
  
 }
 

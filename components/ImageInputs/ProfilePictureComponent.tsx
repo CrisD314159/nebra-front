@@ -10,7 +10,7 @@ interface ImageUploadProps {
 }
 
 export default function ProfilePictureComponent({ setFormImageFile, initialUrl }: ImageUploadProps) {
-  const [previewImage, setPreviewImage] = useState<string | null>( null)
+  const [previewImage, setPreviewImage] = useState<string | null>( initialUrl ?? null)
 
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;

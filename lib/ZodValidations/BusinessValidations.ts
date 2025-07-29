@@ -1,22 +1,22 @@
 import {z} from 'zod'
 
 export const createBusinessValidation = z.object({
-  desciption: z.string(),
+  description: z.string(),
   name:z.string(),
   phoneContact: z.string(),
   category: z.string(),
-  latitude: z.number(),
-  longitude: z.number()
+  latitude: z.string(),
+  longitude: z.string()
   // Schedule will be added later
 })
 
 export const updateBusinessValidation = z.object({
   id:z.uuid(),
-  desciption: z.string(),
+  description: z.string(),
   name:z.string(),
   phoneContact: z.string(),
   category: z.string(),
-  latitude: z.number(),
-  longitude: z.number()
+  latitude: z.string(),
+  longitude: z.string()
   // Schedule will be added later
 })

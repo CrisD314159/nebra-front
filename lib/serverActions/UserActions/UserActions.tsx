@@ -2,7 +2,7 @@
 
 import { FormResponse } from "@/lib/types/types";
 import { changePasswordValidation, createUserValidation, recoverAccountValidation, updateUserValidation, verifyAccountValidation } from "@/lib/ZodValidations/UserValidations";
-import { FetchActionMethod, FetchFormMethod, FetchFormMethodWithAuthorizeBool, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions";
+import { FetchActionMethod, FetchFormMethodWithAuthorizeBool, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions";
 
 
 export async function CreateUser(formstate:FormResponse, formdata:FormData ) {
@@ -28,7 +28,7 @@ export async function CreateUser(formstate:FormResponse, formdata:FormData ) {
       imagesFormData.append('file', image)
     }
 
-    const id = await ImageUploading('api/user/uploadProfilePicture', 'POST', imagesFormData, false)
+    const id = await ImageUploading('api/user/uploadProfilePicture', 'POST', imagesFormData, false, false)
     await FetchActionMethod('api/user/create', 'POST', {...validations.data, profilePicture:id }, false)
     return {
       success: true,
@@ -48,15 +48,17 @@ export async function CreateUser(formstate:FormResponse, formdata:FormData ) {
 
 export async function UpdateUser(formResponse:FormResponse, formdata:FormData ) {
     const validations = updateUserValidation.safeParse({
-      id:formdata.get('id'),
       name: formdata.get('name'),
       location: formdata.get('location')
   })
 
+  console.log(validations.success);
+
+
   if(!validations.success){
     return {
       success:false,
-      message: validations.error.flatten.toString()
+      message: validations.error.message
     }
   }
 
@@ -67,7 +69,7 @@ export async function UpdateUser(formResponse:FormResponse, formdata:FormData ) 
       imagesFormData.append('file', image)
     }
 
-    const imageId = await ImageUploading('api/user/uploadProfilePicture', 'POST', imagesFormData, true)
+    const imageId = await ImageUploading('api/user/uploadProfilePicture', 'POST', imagesFormData, true, false)
     await FetchActionMethod('api/user/update', 'PUT', {...validations.data, profilePicture:imageId }, true)
     return {
       success: true,

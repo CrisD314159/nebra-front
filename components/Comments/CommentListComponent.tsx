@@ -29,7 +29,7 @@ export default function CommentListComponent({initialComments}:SearchListCompone
     try {
       CURRENT_PAGE = CURRENT_PAGE+1
       setPending(true)
-      const newComments = await GetUserBusinessLatestComments()
+      const newComments = await GetUserBusinessLatestComments(CURRENT_PAGE)
       if(newComments.length > 0) {
         setComments([...comments, newComments])
       }else{
@@ -49,7 +49,7 @@ export default function CommentListComponent({initialComments}:SearchListCompone
   }, [inView, hasMore])
 
   return (
-    <div className="overflow-y-scroll w-[90%] flex-1 mx-auto max-md:pb-[92px]">
+    <div className="overflow-y-scroll flex flex-col w-[90%] flex-1 mx-auto items-center max-md:pb-[92px]">
       {
         comments.map(comment =>{
           return (

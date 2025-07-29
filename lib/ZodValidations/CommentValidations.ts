@@ -4,7 +4,7 @@ export const createCommentValidation = z.object({
   businessId:z.string(),
   title: z.string(),
   content: z.string(),
-  score: z.number()
+  score: z.string()
 })
 
 export const answerCommentValidations = z.object({

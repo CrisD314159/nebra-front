@@ -9,13 +9,15 @@ interface MultipleImageUploadProps {
   initialUrls?: string[]
   maxImages?: number
   maxFileSize?: number // in MB
+  removeImageMethodFromEdit?: (url:string) => void
 }
 
 export default function BusinessImagesUploader({ 
   setFormImageFiles, 
   initialUrls = [], 
   maxImages = 5,
-  maxFileSize = 5 
+  maxFileSize = 5,
+  removeImageMethodFromEdit
 }: MultipleImageUploadProps) {
   const [previewImages, setPreviewImages] = useState<string[]>(initialUrls)
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
@@ -31,7 +33,7 @@ export default function BusinessImagesUploader({
         }
       })
     }
-  }, [])
+  }, [previewImages])
 
   const validateFile = useCallback((file: File): string | null => {
     if (!file.type.startsWith('image/')) {
@@ -128,10 +130,13 @@ export default function BusinessImagesUploader({
     const updatedFiles = selectedFiles.filter((_, i) => i !== index)
     const updatedPreviews = previewImages.filter((_, i) => i !== index)
 
+    if (removeImageMethodFromEdit) {
+      removeImageMethodFromEdit(imageToRemove)
+    }
     setSelectedFiles(updatedFiles)
     setPreviewImages(updatedPreviews)
     setFormImageFiles(updatedFiles)
-  }, [selectedFiles, previewImages, setFormImageFiles])
+  }, [selectedFiles, previewImages, setFormImageFiles, removeImageMethodFromEdit])
 
   const canAddMore = selectedFiles.length < maxImages
 
@@ -161,16 +166,6 @@ export default function BusinessImagesUploader({
               </div>
             ))}
             
-            {/* Add More Button */}
-            {canAddMore && (
-              <label 
-                htmlFor="multi-image-upload" 
-                className="flex flex-col items-center justify-center w-full aspect-square rounded-lg cursor-pointer border-2 border-dashed border-[#5e03fc] hover:bg-[#5e03fc]/10 transition-colors"
-              >
-                <Plus size={24} className="text-[#5e03fc] mb-2" />
-                <span className="text-sm text-[#5e03fc] text-center">Add More</span>
-              </label>
-            )}
           </div>
         ) : (
           <div className="text-center text-gray-500 py-8">

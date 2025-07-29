@@ -59,10 +59,10 @@ export default function CreateBusinessForm({handleClose}:CreateBusinessFormProps
 
   return ( 
     <div className='max-w-xl mx-auto p-6'>
-      <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-4">
-        <h2 className="text-2xl font-bold text-center">New Business</h2>
+        <h2 className="text-2xl font-bold text-center mb-2">New Business</h2>
 
         <BusinessImagesUploader setFormImageFiles={setImages}/>
+      <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-4">
 
 
         <div className="flex flex-col">

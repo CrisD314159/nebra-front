@@ -15,7 +15,7 @@ interface UserSettingsEditFormProps{
 export default function EditUserForm({handleClose, user, mutate}:UserSettingsEditFormProps) {
   const [state, action, pending] = useActionState(UpdateUser, undefined)
   const [imageReady, setFormImage] = useState<File | null>(null)
-  const [googleUser, setGoogleUser] = useState(user.createdWithGoogle)
+  const [thirdParty] = useState(user.isThirdPartyUser)
 
 
   useEffect(()=>{
@@ -30,9 +30,8 @@ export default function EditUserForm({handleClose, user, mutate}:UserSettingsEdi
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formdata = new FormData(event.currentTarget)
-    if(googleUser){
-    }else{
-
+    if(!thirdParty && imageReady){
+      formdata.append('image', imageReady)
     }
     formdata.set('id', user.id)
 
@@ -48,7 +47,10 @@ export default function EditUserForm({handleClose, user, mutate}:UserSettingsEdi
   return (
     <>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <ProfilePictureComponent setFormImageFile={setFormImage}/>
+        {
+          !thirdParty &&
+          <ProfilePictureComponent setFormImageFile={setFormImage} initialUrl={user.profilePicture.link}/>
+        }
         <div className="flex flex-col w-full justify-center items-center gap-3">
           <div>
             <label htmlFor="name" className="block text-sm/6 font-medium text-gray-900 dark:text-gray-100" >
@@ -67,13 +69,13 @@ export default function EditUserForm({handleClose, user, mutate}:UserSettingsEdi
             </div>
           </div>
           <div>
-            <label htmlFor="country" className="block text-sm/6 font-medium text-gray-900 dark:text-gray-100">
+            <label htmlFor="location" className="block text-sm/6 font-medium text-gray-900 dark:text-gray-100">
               Location
             </label>
             <div className="mt-2">
               <input
-                id="country"
-                name="country"
+                id="location"
+                name="location"
                 defaultValue={user.location}
                 type="text"
                 required

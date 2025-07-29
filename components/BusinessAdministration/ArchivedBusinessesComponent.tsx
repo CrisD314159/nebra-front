@@ -7,12 +7,12 @@ import BusinessCard from "../Business/BusinessCard"
 
 
 export default function ArchivedBusinessesComponent() {
-  const {data, error, isLoading} = useSWR<BusinessInfo[]>('myBusiness', GetUserArchivedBusiness)
+  const {data, error, isLoading, mutate} = useSWR<BusinessInfo[]>('archivedBusiness', GetUserArchivedBusiness)
 
 
 
   return (
-    <div className="overflow-y-scroll w-[90%] flex-1 mx-auto max-md:pb-[92px]">
+    <div className="overflow-y-scroll w-[90%] flex flex-col items-center flex-1 mx-auto pb-[100px]">
       {
         isLoading &&
         <div className="w-full flex justify-center">
@@ -25,12 +25,16 @@ export default function ArchivedBusinessesComponent() {
         <p className="text-center mt-3">There was an error while loading your archived businesses</p>
 
       }
+
+      {
+        data && data.length === 0 && <p className="text-center mt-3">No archived businesses found</p>
+      }
       
       {
         data && data.length > 0 &&
         data.map(business => {
           return(
-            <BusinessCard business={business} key={business.id}/>
+            <BusinessCard business={business} key={business.id} editable mutate={mutate}/>
           )
 
         })

@@ -93,7 +93,7 @@ export async function FetchActionMethod(path:string, method:string, body:object,
 }
 
 
-export async function ImageUploading(path:string, method:string, blob:FormData, authorize:boolean) {
+export async function ImageUploading(path:string, method:string, blob:FormData, authorize:boolean, list:boolean) {
   await checkIsLoggedIn()
   const token = (await cookies()).get('token')?.value
 
@@ -114,6 +114,11 @@ export async function ImageUploading(path:string, method:string, blob:FormData, 
   }
 
   if(response.ok){
+    if(list){
+      const ids = await response.json()
+      return ids
+      
+    }
     const {id} = await response.json()
     return id
   }else{
@@ -122,6 +127,8 @@ export async function ImageUploading(path:string, method:string, blob:FormData, 
   }
   
 }
+
+
 
 export async function FetchFormMethodWithAuthorizeBool(path:string, method:string, body:object, authorize:boolean) {
     await checkIsLoggedIn()

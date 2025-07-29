@@ -4,18 +4,17 @@ import { CommentInfo, isNullOrEmpty } from "@/lib/types/types"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import useSWR from "swr"
-import { SearchBusiness } from "@/lib/serverActions/BusinessActions/BusinessActions"
 import CommentListComponent from "./CommentListComponent"
 import { useRoleStore } from "@/store/userRoleStore"
 import UnauthorizedPage from "../Unauthorized/UnauthorizedPage"
-
+import { GetUserBusinessLatestComments } from "@/lib/serverActions/CommentActions/CommentActions"
 
 export default function CommentsPage() {
 
   const [searchParam] = useState('')
   const {isLoggedIn} = useRoleStore()
 
-  const {data, isLoading, error, mutate} = useSWR<CommentInfo[]>('initialSearchUsers', () => SearchBusiness(searchParam,  10))
+  const {data, isLoading, error, mutate} = useSWR<CommentInfo[]>('userComments', () => GetUserBusinessLatestComments(0))
 
 
   useEffect(()=>{
@@ -46,8 +45,13 @@ export default function CommentsPage() {
         {isLoading && <div className=" w-full flex justify-center">
           <span className="mt-7 loading-lg loading loading-spinner text-primary"></span>
         </div>}
+
         {
-          data &&
+          data && data.length === 0 &&
+        <p className="text-center mt-7">No new comments found</p>
+        }
+        {
+          data && data.length > 0 &&
         <CommentListComponent initialComments={data} />
         }
       </div>

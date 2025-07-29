@@ -28,7 +28,7 @@ export interface UserInfo{
   email:string
   profilePicture: ImageInfo,
   location: string
-  createdWithGoogle:boolean
+  isThirdPartyUser:boolean
   userRole:string
 }
 
@@ -63,6 +63,16 @@ export interface BusinessInfo{
   ownerName:string
   businessState:string
   category:string
+}
+
+export interface ReportInfo{
+  id:string
+  userId:string
+  userName:string
+  businessId:string
+  businessName:string
+  reason:string
+  answer:string
 }
 
 

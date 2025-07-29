@@ -10,11 +10,11 @@ interface BusinessListProps{
 
 export default function BusinessList({initialBusiness}:BusinessListProps) {
   return (
-    <div className="w-full flex flex-col items-center overflow-y-auto flex-1 h-full pb-52">
+    <div className="w-full flex flex-col items-center overflow-y-auto flex-1 h-full pb-64">
       {
         initialBusiness.map((business) =>{
           return (
-            <BusinessCard business={business} key={business.id}/>
+            <BusinessCard business={business} key={business.id} editable={false}/>
           )
         })
       }

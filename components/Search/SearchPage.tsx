@@ -14,7 +14,7 @@ export default function SearchMainComponent() {
   const [searchParam, setSeachParam] = useState('')
 
 
-  const {data, isLoading, error, mutate} = useSWR<BusinessInfo[]>('initialSearchUsers', () => SearchBusiness(searchParam,  10))
+  const {data, isLoading, error, mutate} = useSWR<BusinessInfo[]>('initialSearchBusiness', () => SearchBusiness(searchParam,  0))
 
   const handleSearchChange = (cad:string) =>{
     setSeachParam(cad)

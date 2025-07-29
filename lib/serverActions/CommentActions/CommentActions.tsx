@@ -3,6 +3,7 @@
 import { FormResponse } from "@/lib/types/types";
 import { answerCommentValidations, createCommentValidation } from "@/lib/ZodValidations/CommentValidations";
 import { FetchFormMethod, GetEntityMethod } from "../GlobalServerActions/GlobalServerActions";
+import { number } from "zod";
 
 
 export async function CreateComment(formstate: FormResponse, formdata:FormData) {
@@ -16,7 +17,7 @@ export async function CreateComment(formstate: FormResponse, formdata:FormData) 
   if(!validations.success){
     return {
       success:false,
-      message: validations.error.flatten.toString()
+      message: validations.error.message
     }
   }
 
@@ -51,7 +52,7 @@ export async function GetBusinessComments(businessId:string, page:number) {
 
 }
 
-export async function GetUserBusinessLatestComments() {
-  const url = `api/comment/getUserLatests`
+export async function GetUserBusinessLatestComments(page:number) {
+  const url = `api/comment/user-comments?page=${page}`
   return await GetEntityMethod(url, true)  
 }

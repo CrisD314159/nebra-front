@@ -3,6 +3,7 @@
 import { FormResponse } from "@/lib/types/types"
 import { createBusinessValidation, updateBusinessValidation } from "@/lib/ZodValidations/BusinessValidations"
 import { FetchActionMethod, FetchFormMethod, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions"
+import { success } from "zod"
 
 
 export async function GetNearBusiness(latitude:number, longitude:number) {
@@ -29,15 +30,8 @@ export async function CreateBusiness(formstate:FormResponse, formdata:FormData) 
   }
 
   try {
-    const imagesFormData = new FormData()
-    const images = formdata.get('images')
-    if (images instanceof Blob || typeof images === 'string') {
-      imagesFormData.append('files', images)
-    }
-
-    const ids = await ImageUploading('api/business/uploadBusinessPhotos', 'POST', imagesFormData, false)  
-    console.log(ids);
-    await FetchActionMethod('api/business', 'POST', {...validations.data, imagesIds:ids }, true)
+    const newImagesIds = await UploadBusinessBlobPhotos(formdata) 
+    await FetchActionMethod('api/business', 'POST', {...validations.data, imagesIds:newImagesIds }, true)
 
   } catch (error) {
     if (error instanceof Error){
@@ -50,7 +44,6 @@ export async function CreateBusiness(formstate:FormResponse, formdata:FormData) 
 
 }
 export async function UpdateBusiness(formstate: FormResponse, formdata: FormData) {
-  // TODO: Gestionar la eliminación de imágenes
     const validations = updateBusinessValidation.safeParse({
     id:formdata.get('id'),
     name:formdata.get('name'),
@@ -64,19 +57,24 @@ export async function UpdateBusiness(formstate: FormResponse, formdata: FormData
   if(!validations.success){
     return {
       success: false,
-      message: validations.error.flatten.toString()
+      message: validations.error.message
     }
   }
 
     try {
-    const imagesFormData = new FormData()
-    const images = formdata.get('images')
-    if (images instanceof Blob || typeof images === 'string') {
-      imagesFormData.append('files', images)
-    }
+ 
 
-    const ids = await ImageUploading('api/business/uploadBusinessPhotos', 'POST', imagesFormData, true)  
-    await FetchActionMethod('api/business', 'PUT', {...validations.data, imagesIds:ids }, true)
+    const currendIds = formdata.getAll('currentImages');
+    const newImagesIds = await UploadBusinessBlobPhotos(formdata)
+
+    const unifiedImagesId =  [...currendIds, ...newImagesIds]
+
+    await FetchActionMethod('api/business', 'PUT', {...validations.data, imagesIds:unifiedImagesId }, true)
+
+    return {
+      success:true,
+      message: "Business updated"
+    }
 
   } catch (error) {
     if (error instanceof Error){
@@ -87,10 +85,23 @@ export async function UpdateBusiness(formstate: FormResponse, formdata: FormData
     }
   }
 
+}
 
-  return await FetchFormMethod('api/business', 'PUT', {...validations.data})
+async function UploadBusinessBlobPhotos(formdata:FormData) {
+  const imagesFormData = new FormData()
+  const images = formdata.getAll('images')
+  if(images.length === 0) return []
+
+  images.forEach((blob)=>{
+    if (blob instanceof Blob || typeof blob === 'string') {
+      imagesFormData.append('files', blob) 
+    }
+  })
+
+  return await ImageUploading('api/business/uploadBusinessPhotos', 'POST', imagesFormData, true, true) 
 
 }
+
 export async function DeleteBusiness(businessId:string) {
   return await FetchActionMethod(`api/business/${businessId}`, 'DELETE', {}, true)
 
@@ -98,6 +109,7 @@ export async function DeleteBusiness(businessId:string) {
 
 
 export async function SearchBusiness(name:string, page:number) {
+  if(name === '' || !name) return 
   const url = `api/business/search?name=${name}&page=${page}`
   return await GetEntityMethod(url, true)
 

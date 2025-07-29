@@ -22,7 +22,7 @@ const CommentsPageDynamic = dynamic(() => import('@/components/Comments/Comments
   ssr:false
 })
 
-const SavedPageDynamic = dynamic(() => import('@/components/Saved/SavedPage'), {
+const SavedPageDynamic = dynamic(() => import('@/components/BusinessAdministration/SavedPage'), {
   ssr:false
 })
 

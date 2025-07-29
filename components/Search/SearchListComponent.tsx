@@ -50,11 +50,11 @@ export default function SearchListComponent({initialBusiness, keyword}:SearchLis
   }, [inView, hasMore])
 
   return (
-    <div className="overflow-y-scroll w-[90%] flex-1 mx-auto max-md:pb-[92px]">
+    <div className="overflow-y-scroll w-[90%] flex flex-col items-center flex-1 mx-auto max-md:pb-[92px]">
       {
         businesses.map(business =>{
           return (
-            <BusinessCard business={business} key={business.id}/>
+            <BusinessCard business={business} key={business.id} editable={false}/>
           )
         })
       }

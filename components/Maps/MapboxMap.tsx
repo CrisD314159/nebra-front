@@ -10,7 +10,7 @@ interface MapProps {
   editable:boolean
 }
 
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN // Reemplaza con tu token
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN 
 
 export default function MapboxMap({ initialLat, initialLng, onSelectLocation, editable }: MapProps) {
   const mapContainer = useRef<HTMLDivElement | null>(null)

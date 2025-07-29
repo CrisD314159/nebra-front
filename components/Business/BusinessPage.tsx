@@ -4,6 +4,7 @@ import ImageCarousel from "../ImageCarousel/ImageCarousel";
 import { ArrowLeft } from "lucide-react";
 import RatingBusiness from "./RatingBusiness";
 import MapboxMap from "../Maps/MapboxMap";
+import BusinessComentsList from "../BusinessComments/BusinessComentsList";
 
 interface BusinessPage{
   selected: boolean
@@ -12,6 +13,7 @@ interface BusinessPage{
 }
 
 export default function BusinessPage({business, selected, setSelected}:BusinessPage) {
+
   return (
       <AnimatePresence>
         {selected && (
@@ -26,7 +28,9 @@ export default function BusinessPage({business, selected, setSelected}:BusinessP
               <ArrowLeft/>
             </button>
             <div className="w-full flex-1 flex flex-col pt-10 gap-5">
-              <ImageCarousel images={business.images}/>
+              <div className="w-full flex justify-center">
+                <ImageCarousel images={business.images}/>
+              </div>
               <h3 className="text-3xl font-bold">{business.name}</h3>
               <p className="mt-4 text-lg font-bold">Created by {business.ownerName}</p>
               <p className="from-neutral-900 dark:from-neutral-400 mt-2">
@@ -39,15 +43,20 @@ export default function BusinessPage({business, selected, setSelected}:BusinessP
 
               <RatingBusiness rating={business.averageScore}/>
 
-
-              <MapboxMap editable={false} initialLat={business.latitude} initialLng={business.longitude} onSelectLocation={() => {}}/>
-
-              <h2 className="text-3xl font-bold">Comments</h2>
-
-              <div className="w-full bg-gray-50 dark:bg-gray-900 rounded-2xl">
-                h
-                
+              <div className="w-full h-64 mb-2 flex flex-col mt-14">
+                <h2 className="text-3xl font-bold">Location</h2>
+                <MapboxMap editable={false} initialLat={business.latitude} initialLng={business.longitude} onSelectLocation={() => {}}/>
               </div>
+
+
+              <div className="w-full mt-14">
+                <h2 className="text-3xl font-bold">Comments</h2>
+              
+
+                <BusinessComentsList businessId={business.id}/>
+
+              </div>
+
 
 
             </div>

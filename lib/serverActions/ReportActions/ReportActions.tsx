@@ -24,31 +24,31 @@ export async function CreateReport(formstate:FormResponse, formdata:FormData) {
 
 export async function AcceptReport(reportId:string) {
 
-  return await FetchActionMethod(`api/report/accept/${reportId}`, 'PUT', {})
+  return await FetchActionMethod(`api/report/accept/${reportId}`, 'PUT', {}, true)
 
 }
 
 export async function RejectReport(reportId:string) {
 
-  return await FetchActionMethod(`api/reject/accept/${reportId}`, 'PUT', {})
+  return await FetchActionMethod(`api/report/reject/${reportId}`, 'PUT', {}, true)
 
 }
 
 
 export async function GetPendingReports(page:number) {
 
-  return await GetEntityMethod(`api/reject/pending?page=${page}`, true)
+  return await GetEntityMethod(`api/report/pending?page=${page}`, true)
 
 }
 
 
 export async function GetAcceptedReports(page:number) {
 
-  return await GetEntityMethod(`api/reject/accepted?page=${page}`, true)
+  return await GetEntityMethod(`api/report/accepted?page=${page}`, true)
 
 }
 export async function GetRejectedReports(page:number) {
 
-  return await GetEntityMethod(`api/reject/rejected?page=${page}`, true)
+  return await GetEntityMethod(`api/report/rejected?page=${page}`, true)
 
 }

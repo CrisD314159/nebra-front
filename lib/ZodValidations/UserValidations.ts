@@ -8,7 +8,6 @@ export const createUserValidation = z.object({
 })
 
 export const updateUserValidation = z.object({
-  id:z.uuid(),
   name:z.string(),
   location: z.string()
 })

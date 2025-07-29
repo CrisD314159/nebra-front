@@ -53,7 +53,7 @@ export default function UserPage() {
                   </div>
                 </div>
                   <h2 className="text-2xl font-semibold mt-10">{data.name}</h2>
-                  <h3 className="text-lg menu-title font-semibold mt-5">{data.email}</h3>
+                  <h3 className="text-lg menu-title font-semibold max-sm:text-[15px] mt-5">{data.email}</h3>
 
                 <p className="text-xl dark:text-indigo-300 text-indigo-600 my-10  font-medium">📍 {data.location}</p>
 

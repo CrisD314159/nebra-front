@@ -37,7 +37,7 @@ export default function SearchInputComponent({setSearch}: SearchInputComponentPr
   </svg>
   <input
     type="search"
-    placeholder="Search users"
+    placeholder="Search business"
     className="grow bg-transparent outline-none text-sm placeholder:text-base-content/40"
     value={inputValue}
     onChange={(e) => setInputValue(e.target.value)}
