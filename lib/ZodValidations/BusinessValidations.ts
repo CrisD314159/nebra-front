@@ -1,22 +1,47 @@
-import {z} from 'zod'
+import { z } from "zod";
 
 export const createBusinessValidation = z.object({
-  description: z.string(),
-  name:z.string(),
-  phoneContact: z.string(),
-  category: z.string(),
-  latitude: z.string(),
-  longitude: z.string()
-  // Schedule will be added later
-})
+  description: z.string({
+    required_error: "Please enter a description for the business.",
+  }),
+  name: z.string({
+    required_error: "Please enter the business name."
+  }),
+  phoneContact: z.string({
+    required_error: "Please provide a phone number for contact."
+  }),
+  category: z.string({
+    required_error: "Please select a business category."
+  }),
+  latitude: z.string({
+    required_error: "Latitude is required."
+  }),
+  longitude: z.string({
+    required_error: "Longitude is required."
+  }),
+});
 
 export const updateBusinessValidation = z.object({
-  id:z.uuid(),
-  description: z.string(),
-  name:z.string(),
-  phoneContact: z.string(),
-  category: z.string(),
-  latitude: z.string(),
-  longitude: z.string()
-  // Schedule will be added later
-})
+  id: z.
+  string({
+    required_error:"Enter a valid business id"
+  }).uuid(),
+  description: z.string({
+    required_error: "Please enter a description for the business.",
+  }),
+  name: z.string({
+    required_error: "Please enter the business name."
+  }),
+  phoneContact: z.string({
+    required_error: "Please provide a phone number for contact."
+  }),
+  category: z.string({
+    required_error: "Please select a business category."
+  }),
+  latitude: z.string({
+    required_error: "Latitude is required."
+  }),
+  longitude: z.string({
+    required_error: "Longitude is required."
+  }),
+});

@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { startTransition, useActionState, useEffect, useState } from "react"
 import { X } from "lucide-react"
-import { CommentInfo, FormResponse } from "@/lib/types/types"
+import { BusinessInfo, CommentInfo, FormResponse } from "@/lib/types/types"
 import toast from "react-hot-toast"
 
 interface TextInputModalProps {
@@ -14,7 +14,7 @@ interface TextInputModalProps {
   title?: string
   placeholder?: string,
   actionButtonTitle: string,
-  entity: CommentInfo,
+  entity?: CommentInfo | BusinessInfo,
   entityIdKey?: string,
   inputName: string
 }
@@ -44,7 +44,7 @@ export default function FormModal({
     e.preventDefault()
 
     const formdata = new FormData(e.currentTarget)
-    if(entityIdKey){
+    if(entityIdKey && entity){
       formdata.append(entityIdKey, entity.id)
     }
 
@@ -98,6 +98,7 @@ export default function FormModal({
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               className="input input-bordered w-full mb-4"
+              required
             />
 
             <div className="modal-action">

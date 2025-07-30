@@ -1,3 +1,4 @@
+'use client'
 import { BusinessInfo } from "@/lib/types/types";
 import { AnimatePresence, motion } from "framer-motion";
 import ImageCarousel from "../ImageCarousel/ImageCarousel";
@@ -5,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import RatingBusiness from "./RatingBusiness";
 import MapboxMap from "../Maps/MapboxMap";
 import BusinessComentsList from "../BusinessComments/BusinessComentsList";
+import ReportForm from "../Reports/ReportForm";
 
 interface BusinessPage{
   selected: boolean
@@ -13,6 +15,7 @@ interface BusinessPage{
 }
 
 export default function BusinessPage({business, selected, setSelected}:BusinessPage) {
+
 
   return (
       <AnimatePresence>
@@ -31,7 +34,10 @@ export default function BusinessPage({business, selected, setSelected}:BusinessP
               <div className="w-full flex justify-center">
                 <ImageCarousel images={business.images}/>
               </div>
-              <h3 className="text-3xl font-bold">{business.name}</h3>
+              <div className="w-full flex justify-between items-center">
+                <h3 className="text-3xl font-bold">{business.name}</h3>
+                <ReportForm entity={business}/>
+              </div>
               <p className="mt-4 text-lg font-bold">Created by {business.ownerName}</p>
               <p className="from-neutral-900 dark:from-neutral-400 mt-2">
                 {business.description}

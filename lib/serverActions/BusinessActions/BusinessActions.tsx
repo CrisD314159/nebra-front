@@ -2,8 +2,7 @@
 
 import { FormResponse } from "@/lib/types/types"
 import { createBusinessValidation, updateBusinessValidation } from "@/lib/ZodValidations/BusinessValidations"
-import { FetchActionMethod, FetchFormMethod, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions"
-import { success } from "zod"
+import { FetchActionMethod, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions"
 
 
 export async function GetNearBusiness(latitude:number, longitude:number) {
@@ -25,7 +24,7 @@ export async function CreateBusiness(formstate:FormResponse, formdata:FormData) 
   if(!validations.success){
     return {
       success: false,
-      message: validations.error.message
+      message: validations.error.errors.map(error => `${error.message}`).join('\n')
     }
   }
 
@@ -57,7 +56,7 @@ export async function UpdateBusiness(formstate: FormResponse, formdata: FormData
   if(!validations.success){
     return {
       success: false,
-      message: validations.error.message
+      message: validations.error.errors.map(error => `${error.message}`).join('\n')
     }
   }
 

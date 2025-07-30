@@ -17,7 +17,7 @@ export async function CreateUser(formstate:FormResponse, formdata:FormData ) {
   if(!validations.success){
     return {
       success:false,
-      message: validations.error.flatten.toString()
+      message: validations.error.errors.map(error => `${error.message}`).join('\n')
     }
   }
 
@@ -52,13 +52,11 @@ export async function UpdateUser(formResponse:FormResponse, formdata:FormData ) 
       location: formdata.get('location')
   })
 
-  console.log(validations.success);
-
 
   if(!validations.success){
     return {
       success:false,
-      message: validations.error.message
+      message: validations.error.errors.map(error => `${error.message}`).join('\n')
     }
   }
 
@@ -104,7 +102,7 @@ export async function ChangePassword(formResponse:FormResponse, formdata:FormDat
     if(!validations.success){
       return {
         success: false,
-        message: validations.error.flatten.toString()
+        message: validations.error.errors.map(error => `${error.message}`).join('\n')
       }
     }
 
@@ -120,7 +118,7 @@ export async function ResetAccount(formResponse:FormResponse, formdata:FormData)
   if(!validations.success){
     return {
       success: false,
-      message: validations.error.flatten.toString()
+      message: validations.error.errors.map(error => `${error.message}`).join('\n')
     }
   }
 
@@ -144,7 +142,7 @@ export async function VerifyAccount(formstate:FormResponse, formdata:FormData) {
   if(!validations.success){
     return {
       success:false,
-      message: validations.error.flatten.toString()
+      message: validations.error.errors.map(error => `${error.message}`).join('\n')
     }
   }
 

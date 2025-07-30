@@ -8,7 +8,7 @@ const protectedRoutesRegex = [
   /^\/dashboard\/userOverview$/
 ];
 
-const publicRoutes = ['/', '/signup', '/verifyAccount']
+const publicRoutes = ['/', '/account/signup', '/account/login', '/verifyAccount', '/resetAccount', '/recoverAccount']
  
 export default async function middleware(req: NextRequest) {
   // 2. Check if the current route is protected or public
@@ -20,14 +20,14 @@ export default async function middleware(req: NextRequest) {
   // 3. Decrypt the session from the cookie 
   // 4. Redirect to /login if the user is not authenticated
   if (isProtectedRoute && !await checkIsLoggedIn()) {
-    return NextResponse.redirect(new URL('/', req.nextUrl))
+    return NextResponse.redirect(new URL('/account/login', req.nextUrl))
   }
  
   // 5. Redirect to /dashboard if the user is authenticated
   if (
     isPublicRoute &&
     await checkIsLoggedIn() &&
-    req.nextUrl.pathname.startsWith('/')
+    req.nextUrl.pathname.startsWith('/account')
   ) {
     return NextResponse.redirect(new URL('/dashboard', req.nextUrl))
   }

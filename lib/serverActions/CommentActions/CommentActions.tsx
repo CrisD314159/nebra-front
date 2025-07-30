@@ -3,7 +3,6 @@
 import { FormResponse } from "@/lib/types/types";
 import { answerCommentValidations, createCommentValidation } from "@/lib/ZodValidations/CommentValidations";
 import { FetchFormMethod, GetEntityMethod } from "../GlobalServerActions/GlobalServerActions";
-import { number } from "zod";
 
 
 export async function CreateComment(formstate: FormResponse, formdata:FormData) {
@@ -17,7 +16,7 @@ export async function CreateComment(formstate: FormResponse, formdata:FormData) 
   if(!validations.success){
     return {
       success:false,
-      message: validations.error.message
+      message: validations.error.errors.map(error => `${error.message}`).join('\n')
     }
   }
 
@@ -35,7 +34,7 @@ export async function AnswerComment(formstate: FormResponse, formdata:FormData )
   if(!validations.success){
     return {
       success:false,
-      message: validations.error.flatten.toString()
+      message: validations.error.errors.map(error => `${error.message}`).join('\n')
     }
   }
 

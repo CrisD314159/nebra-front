@@ -10,12 +10,13 @@ export async function CreateReport(formstate:FormResponse, formdata:FormData) {
     reason: formdata.get('reason')
   })
 
-  if(!validations.success){
-    return {
-      success: false,
-      message: validations.error.flatten.toString()
-    }
-  }
+if (!validations.success) {
+
+  return {
+    success: false,
+    message: validations.error.errors.map(error => `${error.message}`).join('\n')
+  };
+}
 
   return await FetchFormMethod('api/report', 'POST', {...validations.data})
 

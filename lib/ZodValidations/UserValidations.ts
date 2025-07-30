@@ -1,29 +1,53 @@
-import {z} from 'zod'
+import { z } from 'zod';
 
 export const createUserValidation = z.object({
-  name:z.string(),
-  email: z.email(),
-  password: z.string(),
-  location: z.string()
-})
+  name: z.string({
+    required_error: "Please enter your name."
+  }),
+  email: z.
+  string({
+    required_error: "Enter a valid email"
+  }).email(),
+  password: z.string({
+    required_error: "Please enter a password."
+  }),
+  location: z.string({
+    required_error: "Please enter your location."
+  }),
+});
 
 export const updateUserValidation = z.object({
-  name:z.string(),
-  location: z.string()
-})
-
+  name: z.string({
+    required_error: "Please enter your name."
+  }),
+  location: z.string({
+    required_error: "Please enter your location."
+  }),
+});
 
 export const changePasswordValidation = z.object({
-    email:z.email(),
-    password:z.string(),
-    code:z.string()
-})
+  email: z.string({
+    required_error: "Please enter your email address."
+  }).email("Invalid email address."),
+  password: z.string({
+    required_error: "Please enter your new password."
+  }),
+  code: z.string({
+    required_error: "Please enter the verification code."
+  }),
+});
 
 export const recoverAccountValidation = z.object({
-    email:z.email()
-})
+  email: z.string({
+    required_error: "Please enter your email address."
+  }).email("Invalid email address."),
+});
 
 export const verifyAccountValidation = z.object({
-    email:z.email(),
-    code:z.string()
-})
+  email: z.string({
+    required_error: "Please enter your email address."
+  }).email("Invalid email address."),
+  code: z.string({
+    required_error: "Please enter the verification code."
+  }),
+});

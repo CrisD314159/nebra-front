@@ -4,7 +4,6 @@ import { BusinessInfo } from "@/lib/types/types"
 import {motion} from 'framer-motion'
 import Image from "next/image"
 import { useState } from "react"
-import RatingBusiness from "./RatingBusiness"
 import BusinessPage from "./BusinessPage"
 import GlobalModal from "../Modals/GlobalModal"
 import { Archive, ArchiveRestore, Edit, Eye, Trash } from "lucide-react"
@@ -34,7 +33,7 @@ export default function BusinessCard({business, editable, mutate}:BusinessCardPr
           <Image src={business.images[0].link} alt="Business Image" height={230} width={230}/>
           <div className="sm:ml-3 w-full">
             <h3 className="text-xl mt-3 font-bold sm:text-2xl">{business.name}</h3>
-            <p className="text-gray-500 sm:text-shadow-2xs w-full h-14 overflow-hidden truncate">{business.description}</p>
+            <p className="text-gray-500 sm:text-shadow-2xs w-[85%] h-14 overflow-hidden truncate">{business.description}</p>
 
             {editable &&
             <div className="mt-5 flex gap-5 max-md:justify-center ">
