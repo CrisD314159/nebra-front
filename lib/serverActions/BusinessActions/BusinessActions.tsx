@@ -19,7 +19,6 @@ export async function CreateBusiness(formstate:FormResponse, formdata:FormData) 
     longitude: formdata.get('longitude')
   })
 
-  console.log(validations.success);
 
   if(!validations.success){
     return {
@@ -31,6 +30,11 @@ export async function CreateBusiness(formstate:FormResponse, formdata:FormData) 
   try {
     const newImagesIds = await UploadBusinessBlobPhotos(formdata) 
     await FetchActionMethod('api/business', 'POST', {...validations.data, imagesIds:newImagesIds }, true)
+
+    return {
+      success:true,
+      message:"Business Created"
+    }
 
   } catch (error) {
     if (error instanceof Error){
@@ -89,7 +93,9 @@ export async function UpdateBusiness(formstate: FormResponse, formdata: FormData
 async function UploadBusinessBlobPhotos(formdata:FormData) {
   const imagesFormData = new FormData()
   const images = formdata.getAll('images')
-  if(images.length === 0) return []
+  if(images.length === 0) {
+    throw new Error("You have not selected any photos")
+  }
 
   images.forEach((blob)=>{
     if (blob instanceof Blob || typeof blob === 'string') {

@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const createUserValidation = z.object({
   name: z.string({
     required_error: "Please enter your name."
-  }),
+  }).max(50, {message:"Name must be at most 50 characters long."}),
   email: z.
   string({
     required_error: "Enter a valid email"
@@ -19,7 +19,7 @@ export const createUserValidation = z.object({
 export const updateUserValidation = z.object({
   name: z.string({
     required_error: "Please enter your name."
-  }),
+  }).max(50, {message:"Name must be at most 50 characters long."}),
   location: z.string({
     required_error: "Please enter your location."
   }),

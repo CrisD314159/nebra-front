@@ -71,8 +71,6 @@ export async function FetchActionMethod(path:string, method:string, body:object,
 
   let response: Response
 
-  console.log(body);
-
   try {
     response = await fetch(`${APIURL}/${path}`, {
       method:method,

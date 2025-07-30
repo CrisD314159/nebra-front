@@ -34,6 +34,7 @@ export default function CreateBusinessForm({handleClose}:CreateBusinessFormProps
     }
     if(state?.success === true){
       toast.success(state.message)
+      handleClose()
     }
 
   },[state])
