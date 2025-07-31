@@ -51,7 +51,6 @@ export default function CreateBusinessForm({handleClose}:CreateBusinessFormProps
       });
     }
 
-    console.log("Started transition");
     startTransition(()=>{
       action(formdata)
     })

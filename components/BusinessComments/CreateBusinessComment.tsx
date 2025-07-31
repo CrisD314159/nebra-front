@@ -25,7 +25,6 @@ export default function CreateBusinessComment({ businessId, mutate }: CreateBusi
       toast.error("You forgot to rate this business ")
       return
     }
-    console.log(rating);
     formdata.append('score', rating.toString())
 
 
