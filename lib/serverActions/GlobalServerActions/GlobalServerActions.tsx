@@ -134,6 +134,7 @@ export async function FetchFormMethodWithAuthorizeBool(path:string, method:strin
 
   let response: Response
 
+
   try {
     response = await fetch(`${APIURL}/${path}`, {
       method:method,

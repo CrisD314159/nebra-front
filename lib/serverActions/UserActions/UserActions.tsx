@@ -3,6 +3,7 @@
 import { FormResponse } from "@/lib/types/types";
 import { changePasswordValidation, createUserValidation, recoverAccountValidation, updateUserValidation, verifyAccountValidation } from "@/lib/ZodValidations/UserValidations";
 import { FetchActionMethod, FetchFormMethodWithAuthorizeBool, GetEntityMethod, ImageUploading } from "../GlobalServerActions/GlobalServerActions";
+import { Logout } from "../Auth/AuthServerActions";
 
 
 export async function CreateUser(formstate:FormResponse, formdata:FormData ) {
@@ -95,7 +96,7 @@ export async function GetUserProfile() {
 export async function ChangePassword(formResponse:FormResponse, formdata:FormData) {
     const validations = changePasswordValidation.safeParse({
       email:formdata.get("email"),
-      password:formdata.get("password"),
+      newPassword:formdata.get("newPassword"),
       code:formdata.get("code")
     })
   
@@ -106,7 +107,7 @@ export async function ChangePassword(formResponse:FormResponse, formdata:FormDat
       }
     }
 
-    return await FetchFormMethodWithAuthorizeBool("/auth/changePassword", 'PUT', {...validations.data}, false)
+    return await FetchFormMethodWithAuthorizeBool("api/account/changePassword", 'PUT', {...validations.data}, false)
 
 }
 
@@ -122,7 +123,7 @@ export async function ResetAccount(formResponse:FormResponse, formdata:FormData)
     }
   }
 
-  return await FetchFormMethodWithAuthorizeBool("/auth/resetAccount", 'POST', {...validations.data}, false)
+  return await FetchFormMethodWithAuthorizeBool("api/account/sendRecoveryLink", 'POST', {...validations.data}, false)
 
 
 }
@@ -151,6 +152,8 @@ export async function VerifyAccount(formstate:FormResponse, formdata:FormData) {
 }
 
 export async function DeleteAccount() {
-  const url = `api/user/search?`
-  return await FetchActionMethod(url, 'DELETE', {}, true)  
+  const url = `api/account`
+
+  await FetchActionMethod(url, 'DELETE', {}, true)  
+  await Logout()
 }

@@ -47,7 +47,7 @@ export default function Home() {
             </p>
             <p className="flex flex-col items-center mt-5 gap-3">
               <Link href={"https://github.com/CrisD314159/nebra-front"}>
-                <Github width={30} height={30}/>
+                <Github width={30} height={30} style={{color:'white', stroke:'#FFFFFF'}}/>
               </Link>
               <Link href={"https://crisdev-pi.vercel.app/"} className="font-semibold  hover:text-indigo-500 text-indigo-700">
                 {"Creator's Page"}

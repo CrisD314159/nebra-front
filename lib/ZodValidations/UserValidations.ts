@@ -29,7 +29,7 @@ export const changePasswordValidation = z.object({
   email: z.string({
     required_error: "Please enter your email address."
   }).email("Invalid email address."),
-  password: z.string({
+  newPassword: z.string({
     required_error: "Please enter your new password."
   }),
   code: z.string({
